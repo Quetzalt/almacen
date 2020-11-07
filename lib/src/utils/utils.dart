@@ -1,5 +1,3 @@
-import 'package:almacen/src/models/artModel.dart';
-import 'package:almacen/src/pages/RegistroInventario.dart';
 import 'package:flutter/material.dart';
 
 bool isNumeric(String s) {
@@ -28,9 +26,4 @@ void mostrarAlerta(BuildContext context, String mensaje) {
       );
     },
   );
-}
-
-abrirArt(BuildContext context, ArtModel art) async {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => RegistroProducto()));
 }

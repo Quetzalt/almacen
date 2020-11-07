@@ -18,6 +18,8 @@ class ArtModel {
   String marca;
   String hola;
 
+  ArtModel.empty();
+
   factory ArtModel.fromJson(Map<String, dynamic> json) => ArtModel(
         id: json["id"],
         nombreArticulo: json["nombreArticulo"],

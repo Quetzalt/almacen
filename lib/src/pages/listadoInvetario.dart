@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:almacen/src/models/artModel.dart';
 import 'package:almacen/src/bloc/art_bloc.dart';
-import 'package:almacen/src/utils/utils.dart' as utils;
 
 class ListadoPage extends StatelessWidget {
   final artBloc = new ArtBloc();
@@ -40,14 +39,16 @@ class ListadoPage extends StatelessWidget {
                 background: Container(color: Colors.red),
                 onDismissed: (direction) => artBloc.borrarArt(art[i].id),
                 child: ListTile(
-                  leading: Icon(Icons.cloud_queue,
-                      color: Theme.of(context).primaryColor),
-                  title: Text(art[i].nombreArticulo),
-                  subtitle: Text('ID: ${art[i].id}'),
-                  trailing:
-                      Icon(Icons.keyboard_arrow_right, color: Colors.grey),
-                  onTap: () => utils.abrirArt(context, art[i]),
-                )));
+                    leading: Icon(Icons.cloud_queue,
+                        color: Theme.of(context).primaryColor),
+                    title: Text(art[i].nombreArticulo),
+                    subtitle: Text('ID: ${art[i].id}'),
+                    trailing:
+                        Icon(Icons.keyboard_arrow_right, color: Colors.grey),
+                    onTap: () {
+                      Navigator.pushNamed(context, 'registro',
+                          arguments: art[i]);
+                    })));
       },
     );
   }

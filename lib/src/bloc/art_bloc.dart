@@ -33,6 +33,11 @@ class ArtBloc with Validators {
     obtenerArt();
   }
 
+  editarArt(ArtModel art) async {
+    await DBProvider.db.updateArt(art);
+    obtenerArt();
+  }
+
   borrarArt(int id) async {
     await DBProvider.db.deleteArt(id);
     obtenerArt();

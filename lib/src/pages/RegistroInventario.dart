@@ -1,7 +1,6 @@
 import 'package:almacen/src/bloc/art_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:almacen/src/models/artModel.dart';
-// import 'package:almacen/src/utils/utils.dart' as utils;
 
 class RegistroProducto extends StatefulWidget {
   RegistroProducto({Key key}) : super(key: key);
@@ -24,31 +23,47 @@ class _RegistroProductoState extends State<RegistroProducto> {
 
   ArtModel articulo = new ArtModel();
 
+  _RegistroProductoState();
+
   @override
   Widget build(BuildContext context) {
+    final ArtModel art = ModalRoute.of(context).settings.arguments;
+    _init(art);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Producto'),
       ),
       body: Container(
         color: Colors.white,
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              SizedBox(height: 30),
-              _crearNombre(),
-              SizedBox(height: 15),
-              _crearCaracteristica(),
-              SizedBox(height: 15),
-              _crearCantidad(),
-              SizedBox(height: 15),
-              _crearMarca(),
-              SizedBox(height: 30),
-              _crearBoton()
-            ],
-          ),
-        ),
+        child: _crearForm(art),
+      ),
+    );
+  }
+
+  _init(ArtModel art) {
+    nomArtController.text = art.nombreArticulo;
+    caracController.text = art.caracteristica;
+    cantController.text = art.cantidad;
+    marcaController.text = art.marca;
+  }
+
+  Widget _crearForm(ArtModel art) {
+    return Form(
+      key: formKey,
+      child: Column(
+        children: [
+          SizedBox(height: 30),
+          _crearNombre(),
+          SizedBox(height: 15),
+          _crearCaracteristica(),
+          SizedBox(height: 15),
+          _crearCantidad(),
+          SizedBox(height: 15),
+          _crearMarca(),
+          SizedBox(height: 30),
+          _crearBoton(art)
+        ],
       ),
     );
   }
@@ -121,7 +136,7 @@ class _RegistroProductoState extends State<RegistroProducto> {
     );
   }
 
-  Widget _crearBoton() {
+  Widget _crearBoton(ArtModel art) {
     return RaisedButton.icon(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
@@ -132,12 +147,22 @@ class _RegistroProductoState extends State<RegistroProducto> {
       icon: Icon(Icons.save),
       onPressed: () {
         if (formKey.currentState.validate()) {
-          print("Guardar" + nomArtController.text);
-          artBloc.agregarArt(ArtModel(
-              nombreArticulo: nomArtController.text,
-              caracteristica: caracController.text,
-              cantidad: cantController.text,
-              marca: marcaController.text));
+          if (art.id > 0) {
+            // Actualización
+            art.nombreArticulo = nomArtController.text;
+            art.caracteristica = caracController.text;
+            art.cantidad = cantController.text;
+            art.marca = marcaController.text;
+
+            artBloc.editarArt(art);
+          } else {
+            // Registro
+            artBloc.agregarArt(ArtModel(
+                nombreArticulo: nomArtController.text,
+                caracteristica: caracController.text,
+                cantidad: cantController.text,
+                marca: marcaController.text));
+          }
         }
       },
     );
