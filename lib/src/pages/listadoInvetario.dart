@@ -46,7 +46,7 @@ class ListadoPage extends StatelessWidget {
                     trailing:
                         Icon(Icons.keyboard_arrow_right, color: Colors.grey),
                     onTap: () {
-                      Navigator.pushNamed(context, 'registro',
+                      Navigator.pushNamed(context, 'actualizar',
                           arguments: art[i]);
                     })));
       },

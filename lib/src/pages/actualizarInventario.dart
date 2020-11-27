@@ -2,14 +2,14 @@ import 'package:almacen/src/bloc/art_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:almacen/src/models/artModel.dart';
 
-class RegistroProducto extends StatefulWidget {
-  RegistroProducto({Key key}) : super(key: key);
+class ActualizarProducto extends StatefulWidget {
+  ActualizarProducto({Key key}) : super(key: key);
 
   @override
-  _RegistroProductoState createState() => _RegistroProductoState();
+  _ActualizarProductoState createState() => _ActualizarProductoState();
 }
 
-class _RegistroProductoState extends State<RegistroProducto> {
+class _ActualizarProductoState extends State<ActualizarProducto> {
   final formKey = GlobalKey<FormState>();
 
   final nomArtController = TextEditingController();
@@ -23,11 +23,12 @@ class _RegistroProductoState extends State<RegistroProducto> {
 
   ArtModel articulo = new ArtModel();
 
-  _RegistroProductoState();
+  _ActualizarProductoState();
 
   @override
   Widget build(BuildContext context) {
     final ArtModel art = ModalRoute.of(context).settings.arguments;
+    _init(art);
 
     return Scaffold(
       appBar: AppBar(
@@ -38,6 +39,13 @@ class _RegistroProductoState extends State<RegistroProducto> {
         child: _crearForm(art),
       ),
     );
+  }
+
+  _init(ArtModel art) {
+    nomArtController.text = art.nombreArticulo;
+    caracController.text = art.caracteristica;
+    cantController.text = art.cantidad;
+    marcaController.text = art.marca;
   }
 
   Widget _crearForm(ArtModel art) {
@@ -139,12 +147,15 @@ class _RegistroProductoState extends State<RegistroProducto> {
       icon: Icon(Icons.save),
       onPressed: () {
         if (formKey.currentState.validate()) {
-          // Registro
-          artBloc.agregarArt(ArtModel(
-              nombreArticulo: nomArtController.text,
-              caracteristica: caracController.text,
-              cantidad: cantController.text,
-              marca: marcaController.text));
+          if (art.id > 0) {
+            // Actualización
+            art.nombreArticulo = nomArtController.text;
+            art.caracteristica = caracController.text;
+            art.cantidad = cantController.text;
+            art.marca = marcaController.text;
+
+            artBloc.editarArt(art);
+          }
         }
       },
     );

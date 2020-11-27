@@ -1,4 +1,5 @@
 import 'package:almacen/src/pages/RegistroInventario.dart';
+import 'package:almacen/src/pages/actualizarInventario.dart';
 import 'package:flutter/material.dart';
 import 'package:almacen/src/pages/homePage.dart';
 import 'package:almacen/src/pages/menuInventario.dart';
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
       routes: {
         'home': (BuildContext context) => HomePage(),
         'menuInventario': (BuildContext context) => MenuInventario(),
-        'registro': (BuildContext content) => RegistroProducto()
+        'registro': (BuildContext content) => RegistroProducto(),
+        'actualizar': (BuildContext context) => ActualizarProducto()
       },
       theme: ThemeData(
         primaryColor: Colors.deepPurple,
